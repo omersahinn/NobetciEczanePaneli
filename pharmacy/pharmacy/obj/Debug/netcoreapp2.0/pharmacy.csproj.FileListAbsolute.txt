@@ -1,0 +1,11 @@
+C:\Users\omar_\Desktop\pharmacy\pharmacy\bin\Debug\netcoreapp2.0\pharmacy.deps.json
+C:\Users\omar_\Desktop\pharmacy\pharmacy\bin\Debug\netcoreapp2.0\pharmacy.runtimeconfig.json
+C:\Users\omar_\Desktop\pharmacy\pharmacy\bin\Debug\netcoreapp2.0\pharmacy.runtimeconfig.dev.json
+C:\Users\omar_\Desktop\pharmacy\pharmacy\bin\Debug\netcoreapp2.0\pharmacy.dll
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.csprojAssemblyReference.cache
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.csproj.CoreCompileInputs.cache
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.AssemblyInfoInputs.cache
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.AssemblyInfo.cs
+C:\Users\omar_\Desktop\pharmacy\pharmacy\bin\Debug\netcoreapp2.0\pharmacy.pdb
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.dll
+C:\Users\omar_\Desktop\pharmacy\pharmacy\obj\Debug\netcoreapp2.0\pharmacy.pdb

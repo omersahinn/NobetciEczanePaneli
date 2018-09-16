@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+
+@model IEnumerable<Pharmacy>
+@using pharmacy.Extensions;
+@{
+    ViewData["Title"] = "Nöbetçi Eczaneler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #map {
+        height: 100%;
+        background-color:grey;
+    }
+
+    .direction {
+        display: inline-block;
+        zoom: 1;
+        white-space: nowrap;
+        vertical-align: middle;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        background-color: #0078e7;
+        margin-left: -16px;
+        margin-top: 5px;
+        -webkit-user-drag: none;
+        font-size: 100%;
+        padding: .5em 1em;
+        border: transparent;
+        text-decoration: none;
+        border-radius: 2px;
+    }
+    .pharmacyRow:hover {
+        background-color: #c7bdbd!important;
+        cursor:pointer;
+    }
+</style>
+<section class="main" style="margin:20px 20px 20px 0;">
+    <div>
+        <p class="card-text text-dark" style="font-size: 31px;font-weight: 600;color: #ad1e22;text-align: start;">@DateTime.Now.ToString("dd MMMM yyyy,dddd") </p>
+    </div>
+    <div class="wrapper-demo" style="margin-top:24px;">
+        <div id="dd" class="wrapper-dropdown-2" tabindex="1" style="float:left;width:64%;">
+            <span id="city">@Model.First().City.ToString()</span>
+            <div class="dropdown" style="z-index:5">
+                <ul style="width:25%;float:left;">
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="adana"})"><i class="icon-twitter icon-large"></i>Adana</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="adiyaman"})"><i class="icon-github icon-large"></i>Adıyaman</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="afyonkarahisar"})"><i class="icon-facebook icon-large"></i>Afyonkarahisar</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="agri"})"><i class="icon-twitter icon-large"></i>Ağrı</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="aksaray"})"><i class="icon-github icon-large"></i>Aksaray</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="amasya"})"><i class="icon-facebook icon-large"></i>Amasya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="ankara"})"><i class="icon-twitter icon-large"></i>Ankara</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="antalya"})"><i class="icon-twitter icon-large"></i>Antalya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="ardahan"})"><i class="icon-twitter icon-large"></i>Ardahan</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="artvin"})"><i class="icon-github icon-large"></i>Artvin</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="aydin"})"><i class="icon-facebook icon-large"></i>Aydın</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="adiyaman"})"><i class="icon-twitter icon-large"></i>Balıkesir</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="balikesir"})"><i class="icon-github icon-large"></i>Bartın</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="batman"})"><i class="icon-facebook icon-large"></i>Batman</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bayburt"})"><i class="icon-twitter icon-large"></i>Bayburt</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bilecik"})"><i class="icon-twitter icon-large"></i>Bilecik</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bingöl"})"><i class="icon-twitter icon-large"></i>Bingöl</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bitlis"})"><i class="icon-github icon-large"></i>Bitlis</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bolu"})"><i class="icon-facebook icon-large"></i>Bolu</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="burdur"})"><i class="icon-twitter icon-large"></i>Burdur</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="bursa"})"><i class="icon-twitter icon-large"></i>Bursa</a></li>
+                </ul>
+                <ul style="width:25%;float:left;">
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="canakkale"})"><i class="icon-github icon-large"></i>Çanakkale</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="cankırı"})"><i class="icon-facebook icon-large"></i>Çankırı</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="corum"})"><i class="icon-twitter icon-large"></i>Çorum</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="denizli"})"><i class="icon-github icon-large"></i>Denizli</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="diyarbakir"})"><i class="icon-facebook icon-large"></i>Diyarbakır</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="düzce"})"><i class="icon-twitter icon-large"></i>Düzce</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="edirne"})"><i class="icon-twitter icon-large"></i>Edirne</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="elazig"})"><i class="icon-twitter icon-large"></i>Elazığ</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="erzincan"})"><i class="icon-github icon-large"></i>Erzincan</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="erzurum"})"><i class="icon-facebook icon-large"></i>Erzurum</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="eskisehir"})"><i class="icon-twitter icon-large"></i>Eskişehir</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="gaziantep"})"><i class="icon-github icon-large"></i>Gaziantep</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="giresun"})"><i class="icon-facebook icon-large"></i>Giresun</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="gümüshane"})"><i class="icon-twitter icon-large"></i>Gümüşhane</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="hakkari"})"><i class="icon-twitter icon-large"></i>Hakkari</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="hatay"})"><i class="icon-twitter icon-large"></i>Hatay</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="ıgdır"})"><i class="icon-github icon-large"></i>Iğdır</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="isparta"})"><i class="icon-facebook icon-large"></i>Isparta</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="mersin"})"><i class="icon-twitter icon-large"></i>Mersin</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="istanbul"})"><i class="icon-twitter icon-large"></i>İstanbul</a></li>
+                </ul>
+                <ul style="width:25%;float:left;">
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="izmir"})"><i class="icon-github icon-large"></i>İzmir</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kahramanmaras"})"><i class="icon-facebook icon-large"></i>Kahramanmaraş</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="karabük"})"><i class="icon-twitter icon-large"></i>Karabük</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="karaman"})"><i class="icon-github icon-large"></i>Karaman</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kars"})"><i class="icon-facebook icon-large"></i>Kars</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kastamonu"})"><i class="icon-twitter icon-large"></i>Kastamonu</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kayseri"})"><i class="icon-twitter icon-large"></i>Kayseri</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kirikkale"})"><i class="icon-twitter icon-large"></i>Kırıkkale</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kirklareli"})"><i class="icon-github icon-large"></i>Kırklareli</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kirşehir"})"><i class="icon-facebook icon-large"></i>Kırşehir</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kilis"})"><i class="icon-twitter icon-large"></i>Kilis</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kocaeli"})"><i class="icon-github icon-large"></i>Kocaeli</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="konya"})"><i class="icon-facebook icon-large"></i>Konya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="kütahya"})"><i class="icon-twitter icon-large"></i>Kütahya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="malatya"})"><i class="icon-twitter icon-large"></i>Malatya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="manisa"})"><i class="icon-twitter icon-large"></i>Manisa</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="mardin"})"><i class="icon-github icon-large"></i>Mardin</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="mugla"})"><i class="icon-facebook icon-large"></i>Muğla</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="mus"})"><i class="icon-twitter icon-large"></i>Muş</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="nevsehir"})"><i class="icon-twitter icon-large"></i>Nevşehir</a></li>
+                </ul>
+                <ul style="width:25%;float:left;">
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="nigde"})"><i class="icon-github icon-large"></i>Niğde</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="ordu"})"><i class="icon-facebook icon-large"></i>Ordu</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="osmaniye"})"><i class="icon-twitter icon-large"></i>Osmaniye</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="rize"})"><i class="icon-github icon-large"></i>Rize</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="sakarya"})"><i class="icon-facebook icon-large"></i>Sakarya</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="samsun"})"><i class="icon-twitter icon-large"></i>Samsun</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="siirt"})"><i class="icon-twitter icon-large"></i>Siirt</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="sinop"})"><i class="icon-twitter icon-large"></i>Sinop</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="sivas"})"><i class="icon-github icon-large"></i>Sivas</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="sanliurfa"})"><i class="icon-facebook icon-large"></i>Şanlıurfa</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="sirnak"})"><i class="icon-twitter icon-large"></i>Şırnak</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="tekirdag"})"><i class="icon-github icon-large"></i>Tekirdağ</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="tokat"})"><i class="icon-facebook icon-large"></i>Tokat</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="trabzon"})"><i class="icon-twitter icon-large"></i>Trabzon</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="tunceli"})"><i class="icon-twitter icon-large"></i>Tunceli</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="usak"})"><i class="icon-twitter icon-large"></i>Uşak</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="van"})"><i class="icon-github icon-large"></i>Van</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="yalova"})"><i class="icon-facebook icon-large"></i>Yalova</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="yozgat"})"><i class="icon-twitter icon-large"></i>Yozgat</a></li>
+                    <li onclick="City(this)"><a href="@Url.Action("Index","Home",new { city="zonguldak"})"><i class="icon-twitter icon-large"></i>Zonguldak</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+<div class="row">
+
+    <div class="col-lg-7 col-md-7 mb-30" style="background-color:white;border:1px solid">
+        <div class="" style="background-color: white;margin:10px;">
+            <p class="card-text text-dark" style="font-size: 31px;font-weight: 600;color: #ad1e22;text-align: start;">@Model.First().City.ToString() İli Tüm Nöbetçi Eczaneleri </p>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="pharmacyRow" onclick="PharmacyMap(this)" style="background-color: white;margin:10px;border-bottom: 1px solid #c7bdbd;
+    border-bottom-width: 4px;">
+                <div class="card-body">
+                    <div class="clearfix">
+                        <div style="float: left;height:93px;">
+                            <img src="https://cdn6.aptoide.com/imgs/d/b/d/dbd56f11bfcb78f570bfa01873692894_icon.png?w=240" width="90" style="height:77%;margin-top:5px;" />
+                        </div>
+                        <div class="float-right text-right" style="text-align: center;float: right;margin-left: 10px;width: 83%;margin-bottom:10px;">
+                            <p class="card-text text-dark" style="font-size: 20px;font-weight: 600;color: #ad1e22;text-align: start;margin-bottom:3px">@item.Name</p>
+                            <p class="card-text text-dark" style="text-align: start;font-size: 12px;margin-bottom: 1px;"><strong style="margin-right: 6px; font-size: 15px;">İl:</strong>@item.City</p>
+                            <p class="card-text text-dark" style="text-align: start;font-size: 12px;margin-bottom: 1px;"><strong style="margin-right: 6px; font-size: 15px;">İlçe:</strong>@item.District</p>
+                            <p class="card-text text-dark" style="text-align: start;font-size: 12px;margin-bottom: 1px;"><strong style="margin-right: 6px; font-size: 15px;">Adres:</strong>@item.Address</p>
+                            <p class="card-text text-dark" style="text-align: start;font-size: 12px;margin-bottom:0;"><strong style="margin-right: 6px;font-size: 15px;">Tel:</strong>@item.Phone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <div class="col-lg-4 col-md-4" style="background-color: #eceae4;border: 1px solid #3b3b3b;margin-left: 10px;width:500px;height: 424px;">
+        <div id="map"></div>
+        <div style="margin-top:10px;">
+            <input class="direction" type="button" value="Yol Tarifi Al" style="margin-top:0;" />
+            <select id="mode" onchange="TravelMode(this)" style="height: 31px;margin-top: 0px;padding-top: 0px;width: 85px;display:none;">
+                <option value="DRIVING">Araba</option>
+                <option value="WALKING">Yaya</option>
+            </select>
+            <div>
+                <div id="disDur" style="width: 100%;margin: 10px;display:none;">
+
+                </div>
+                <div id="directionDetails" style="width:100%">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="~/js/modernizr.custom.79639.js"></script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvxhdhk_fokH7HYKUF-2zndju8LAc7V9w&callback=initMap">
+</script>
+<script type="text/javascript">
+
+    function DropDown(el) {
+        this.dd = el;
+        this.initEvents();
+    }
+    DropDown.prototype = {
+        initEvents: function () {
+            var obj = this;
+
+            obj.dd.on('click', function (event) {
+                $(this).toggleClass('active');
+                event.stopPropagation();
+            });
+        }
+    }
+
+    $(function () {
+
+        var dd = new DropDown($('#dd'));
+
+        $(document).click(function () {
+            // all dropdowns
+            $('.wrapper-dropdown-2').removeClass('active');
+        });
+
+    });
+
+    $(document).ready(function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+
+
+    });
+
+    function showPosition(position) {
+        clientLat = position.coords.latitude;
+        clientLong = position.coords.longitude;
+
+    }
+    $(".direction").click(function () {
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsDisplay.setMap(map);
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    });
+
+    var map;
+    var travelMode="DRIVING"
+    var clientLat = 0;
+    var clientLong = 0;
+    var latitude =@ViewBag.lat;
+    var longitude =@ViewBag.lng;
+    var zom = 11;
+    var tit = "@Model.First().City.ToString().ClearText()";
+    var pharmacyName = "@Model.First().City.ToString().ClearText().ToUpper()";
+    var distance = 0;
+    var duration = 0;
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        directionsService.route({
+            origin: clientLat + "," + clientLong,
+            destination: latitude + "," + longitude,
+            travelMode: travelMode
+        }, function (response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+
+                distance =
+                    response.routes[0].legs[0].distance.text;
+
+                duration =
+                    response.routes[0].legs[0].duration.text;
+                $("#disDur").html('<span id="distance" style="padding-right: 5px;"><strong>Mesafe:</strong>' + distance + '</span><span id = "duration" style = "padding-left: 5px;"> <strong>Süre:</strong>' + duration + '</span>');
+
+                var directionDetails = "";
+                directionDetails = directionDetails + "<div>"
+                for (var i = 0; i < response.routes[0].legs[0].steps.length; i++) {
+                    directionDetails = directionDetails + "<div style='height:auto;padding:5px;background-color: white;border: 1px solid #c1b9b9;width: 100%;'>"
+                    directionDetails = directionDetails + response.routes[0].legs[0].steps[i].instructions;
+                    directionDetails = directionDetails + "<div style='font-size: 11px;color: #337ab7;height: auto;padding: 4px;'>";
+                    directionDetails = directionDetails + "<b style='margin-left:5px'>Mesafe:</b>";
+                    directionDetails = directionDetails + response.routes[0].legs[0].steps[i].distance.text;
+                    directionDetails = directionDetails + "<b style='margin-left:5px'>Süre:</b>";
+                    directionDetails = directionDetails + response.routes[0].legs[0].steps[i].duration.text;
+                    directionDetails = directionDetails + "</div>";
+                    directionDetails = directionDetails + "</div>";
+                }
+                directionDetails = directionDetails + "</div>"
+                $("#directionDetails").html(directionDetails);
+                $("#directionDetails").show();
+                $("#mode").show();
+                $("#disDur").show();
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+            });
+    }
+    function TravelMode(e) {
+         travelMode = e.value;
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        maps = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: latitude, lng: longitude },
+            zoom: zom
+        });
+        directionsDisplay.setMap(maps);
+
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+    }
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: latitude, lng: longitude },
+            zoom: zom
+        });
+    
+        var contentString = '<div><img src="https://cdn6.aptoide.com/imgs/d/b/d/dbd56f11bfcb78f570bfa01873692894_icon.png?w=240" width="40" style="height:77%;margin-top:5px;" /><h1 style="font-size: 15px;float: right;margin-left: 11px;color: #cf060e;">' + pharmacyName + '</h1></div>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+
+        var marker = new google.maps.Marker({
+            position: {
+                lat: latitude,
+                lng: longitude
+            },
+            animation: google.maps.Animation.DROP,
+            title: tit,
+            map: map,
+            draggable: true
+        });
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+    }
+
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+    }
+
+    function PharmacyMap(e) {
+        var name = e.children[0].children[0].children[1].children[0].innerText;
+        var city="@Model.First().City.ToString().ClearText()";
+        $.post('/Home/GetPharmacies', { pharm: name, city: city }, function (data) {
+            if (data!=false) {
+                latitude = parseFloat(data.lat);
+                longitude = parseFloat(data.lng);
+                zom = 16;
+                tit = name;
+                pharmacyName = name;
+                $("#mode").hide();
+                $("#disDur").hide();
+                $("#directionDetails").hide();
+                initMap();
+            }
+            else {
+                alert("Konum Bulunamadı!");
+            }
+        });
+
+    };
+
+
+</script>
